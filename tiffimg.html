@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>UTIF.js Image demo</title>
+    <script src="./node_modules/utif/UTIF.js"></script>
+    <style>
+      img {
+        height: 75vw;
+        border: 1px solid black;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <script type="text/javascript">
+      var loadImage = function(filename) {
+        const xhr = new XMLHttpRequest();
+        xhr.responseType = 'arraybuffer';
+        xhr.open('GET', filename);
+        xhr.onload = function(e) {
+          // Decode image into canvas.
+          const pages = UTIF.decode(e.target.response);
+          // console.log('page count: ' + pages.length);
+          UTIF.decodeImage(e.target.response, pages[0]);
+          const rgba = UTIF.toRGBA8(pages[0]); // Uint8Array with RGBA pixels
+          // console.log(pages[0].width, pages[0].height, pages[0]);
+          if (rgba) {
+            const canvas = document.createElement('canvas');
+            canvas.width = pages[0].width;
+            canvas.height = pages[0].height;
+            const ctx = canvas.getContext('2d');
+            const imageData = ctx.createImageData(pages[0].width, pages[0].height);
+            for (let i = 0; i < rgba.length; i++) {
+              imageData.data[i] = rgba[i];
+            }
+            ctx.putImageData(imageData, 0, 0);
+
+            // Convert canvas to img; scale img; and add img to DOM.
+            const imgObj = document.createElement('img');
+            imgObj.src = canvas.toDataURL('image/png');
+            imgObj.setAttribute('width', canvas.width * 0.25);
+            imgObj.setAttribute('height', canvas.height * 0.25);
+
+            // Create a label.
+            const description = document.createElement('div');
+            description.innerHTML = `<a href="${filename}">${filename}</a>
+               (width: ${canvas.width}, height: ${canvas.height})`;
+            document.body.append(description);
+            document.body.append(imgObj);
+          }
+        };
+        xhr.send();
+      };
+
+      loadImage('images/kofax.tif');
+    </script>
+  </body>
+</html>

@@ -1,0 +1,20 @@
+{
+  "name": "utif-demo",
+  "description": "Demonstration of 1-bit TIFFs with Photopea's UTIF.js.",
+  "version": "1.0.0",
+  "main": "index.html",
+  "author": "Thad Humphries",
+  "license": "MIT",
+  "repository": "github:johnthad/utif-demo",
+  "bugs": {
+    "url": "https://github.com/johnthad/utif-demo/issues"
+  },
+  "keywords": [
+    "TIFF",
+    "image",
+    "canvas"
+  ],
+  "dependencies": {
+    "utif": "^3.0.0"
+  }
+}

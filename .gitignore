@@ -1,0 +1,8 @@
+**.DS_Store
+*.iml
+
+.git/
+.idea/
+
+analysis.json
+node_modules

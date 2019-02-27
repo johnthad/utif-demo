@@ -14,7 +14,7 @@ Browsers do not always handle Canvas and Image similarly. Canvas in Chrome, Fire
 
 ![Alt "Detail Canvas vs. Image, sample 1"](https://github.com/johnthad/utif-demo/blob/master/compare/compare0.png 'Detail Canvas vs. Image, sample 1')
 
-![Alt "Detail Canvas vs. Image, sample 2"](https://github.com/johnthad/utif-demo/blob/master/compare/compare2.png 'Detail Canvas vs. Image, sample 2')
+![Alt "Detail Canvas vs. Image, sample 2"](https://github.com/johnthad/utif-demo/blob/master/compare/compare1.png 'Detail Canvas vs. Image, sample 2')
 
 Interestingly, Safari displays both Canvas and Image clearly, like the right hand side of the samples above. IE9 and IE11 looks like the left side regarless.
 

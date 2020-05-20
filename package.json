@@ -15,6 +15,6 @@
     "canvas"
   ],
   "dependencies": {
-    "utif": "^3.0.0"
+    "utif": "^3.1.0"
   }
 }

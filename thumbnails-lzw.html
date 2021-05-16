@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>UTIF.js thumbnail demo</title>
+    <script src="./node_modules/utif/UTIF.js"></script>
+    <style>
+      body {
+        display: block;
+      }
+      img {
+        border: 1px solid black;
+        margin: 5px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <script>
+      let pages;
+      let p;
+      let resp;
+
+      function loadOne(e) {
+        console.log(' - decode #' + p);
+        // Decode image into canvas.
+        UTIF.decodeImage(resp, pages[p]);
+        const rgba = UTIF.toRGBA8(pages[p]); // Uint8Array with RGBA pixels
+        const canvas = document.createElement('canvas');
+        canvas.width = pages[p].width;
+        canvas.height = pages[p].height;
+        const ctx = canvas.getContext('2d');
+        const imageData = ctx.createImageData(canvas.width, canvas.height);
+        for (let i = 0; i < rgba.length; i++) {
+          imageData.data[i] = rgba[i];
+        }
+        ctx.putImageData(imageData, 0, 0);
+
+        // Convert canvas to img; scale img; and add img to DOM.
+        const imgObj = document.createElement('img');
+        imgObj.src = canvas.toDataURL('image/png');
+        imgObj.setAttribute('width', canvas.width * 0.067);
+        imgObj.setAttribute('height', canvas.height * 0.067);
+        if (++p < pages.length) {
+          // If there's another page, load it after this one.
+          imgObj.onload = loadOne;
+        }
+        document.body.append(imgObj);
+      }
+
+      function imgLoaded(e) {
+        resp = e.target.response;
+        pages = UTIF.decode(resp);
+        console.log('page count: ' + pages.length);
+        p = 0;
+        loadOne();
+      }
+
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', 'images/Document.TIFF');
+      xhr.responseType = 'arraybuffer';
+      xhr.onload = imgLoaded;
+      xhr.send();
+    </script>
+  </body>
+</html>
